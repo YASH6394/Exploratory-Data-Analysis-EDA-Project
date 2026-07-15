@@ -1,13 +1,52 @@
-# Business Sales — Exploratory Data Analysis
+# 📊 Business Sales — Exploratory Data Analysis
 
-An EDA project on a synthetic 3-year business sales dataset (9,800 orders), exploring
-sales, profitability, discounting behavior, and regional/segment patterns.
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/)
+[![pandas](https://img.shields.io/badge/pandas-EDA-150458.svg)](https://pandas.pydata.org/)
+[![License](https://img.shields.io/badge/data-synthetic-lightgrey.svg)]()
 
-## Contents
+An end-to-end exploratory data analysis of a synthetic 3-year business sales dataset —
+**9,800 order-level records (Jan 2023 – Dec 2025)** — covering sales performance,
+profitability, discounting behavior, and regional/segment patterns.
+
+---
+
+## 📁 Table of Contents
+
+- [Project Structure](#-project-structure)
+- [Dataset Overview](#-dataset-overview)
+- [Headline Metrics](#-headline-metrics)
+- [Key Findings](#-key-findings)
+- [Visualizations](#-visualizations)
+- [Methodology](#-methodology)
+- [Getting Started](#-getting-started)
+- [Recommendations](#-recommendations)
+
+---
+
+## 📂 Project Structure
+
+```
+PROJECT 3/
+├── business_sales_data.csv       # Raw dataset — 9,800 order-level records
+├── generate_data.py              # Generates the synthetic dataset
+├── eda_analysis.py                # Full analysis pipeline (stats, correlations, charts)
+├── EDA_Report.docx                # Structured written report with findings & visuals
+├── summary_stats.json             # Headline metrics (machine-readable)
+├── correlation_matrix.csv         # Pearson correlation matrix of core numeric fields
+└── charts/                        # All generated visualizations (PNG)
+    ├── 01_distributions.png
+    ├── 02_monthly_trend.png
+    ├── 03_category_sales_profit.png
+    ├── 04_subcategory_margin.png
+    ├── 05_discount_vs_margin.png
+    ├── 06_correlation_heatmap.png
+    ├── 07_region_segment_heatmap.png
+    └── 08_ship_mode.png
+```
 
 | File | Description |
 |---|---|
-| `business_sales_data.csv` | The dataset — 9,800 order-level records (Jan 2023–Dec 2025) |
+| `business_sales_data.csv` | The dataset — 9,800 order-line records (Jan 2023–Dec 2025) |
 | `generate_data.py` | Script that generated the synthetic dataset |
 | `eda_analysis.py` | Full analysis pipeline: statistical summaries, correlations, and chart generation |
 | `EDA_Report.docx` | Structured written report with findings, charts, and recommendations |
@@ -15,29 +54,101 @@ sales, profitability, discounting behavior, and regional/segment patterns.
 | `correlation_matrix.csv` | Correlation matrix of core numeric variables |
 | `charts/` | All generated visualizations (PNG) |
 
-## Dataset Overview
+---
 
-Each row is one order line item with the following fields:
+## 🗂 Dataset Overview
 
-- **Order ID, Order Date, Ship Date, Ship Mode**
-- **Segment**: Consumer, Corporate, Home Office
-- **Region / State**
-- **Category / Sub-Category**
-- **Quantity, Discount, Sales, Profit**
+Each row represents one order line item, with the following fields:
 
-## Key Findings
+| Field | Description |
+|---|---|
+| `Order ID`, `Order Date`, `Ship Date`, `Ship Mode` | Order tracking and fulfillment info |
+| `Segment` | Consumer, Corporate, or Home Office |
+| `Region` / `State` | West, East, Central, South (+ state-level detail) |
+| `Category` / `Sub-Category` | Furniture, Office Supplies, Technology, and their sub-categories |
+| `Quantity`, `Discount`, `Sales`, `Profit` | Core numeric fields used throughout the analysis |
 
-- Discount depth is the strongest driver of profitability (r ≈ -0.74 with profit margin) —
-  deep discounts consistently push orders into a loss.
-- ~26.5% of orders were sold at a loss.
-- Furniture (especially Tables) is high-revenue but low/negative margin; Paper is the
-  most efficient sub-category by margin.
-- Clear Q4 seasonality — November/December alone account for ~15.5% of annual sales.
-- The West region leads in total sales, driven mainly by the Consumer segment.
+---
 
-See `EDA_Report.docx` for the full write-up with visuals and recommendations.
+## 📌 Headline Metrics
 
-## Reproducing the Analysis
+| Metric | Value |
+|---|---|
+| Total Orders | 9,800 |
+| Total Sales | $6,384,389 |
+| Total Profit | -$53,589 |
+| Overall Profit Margin | -0.84% |
+| Average Order Value | $651.47 |
+| Orders Sold at a Loss | 26.5% |
+| Orders with a Discount Applied | 58.5% |
+| Q4 Share of Annual Sales | 15.5% |
+| Top Region (Sales) | West |
+| Top Category (Sales) | Technology |
+| Best-Margin Sub-Category | Paper (+21.8%) |
+| Worst-Margin Sub-Category | Tables (-13.2%) |
+
+*(Sourced from `summary_stats.json`.)*
+
+---
+
+## 🔍 Key Findings
+
+- **Discounting is the #1 driver of unprofitability.** Discount depth correlates strongly
+  and negatively with profit margin (**r ≈ -0.74**) — deep discounts consistently push
+  orders into a loss, and the effect dwarfs every other variable tested.
+- **The business is essentially break-even overall**, with an aggregate margin of **-0.84%**
+  despite over $6.38M in sales — profitable categories are offsetting losses elsewhere.
+- **More than a quarter of all orders (26.5%) are sold at a loss**, and nearly 6 in 10
+  orders (58.5%) include some level of discount.
+- **Furniture — especially Tables — is high-revenue but structurally unprofitable**
+  (-13.2% margin), while **Paper is the most efficient sub-category** (+21.8% margin).
+- **Clear Q4 seasonality**: November and December alone account for ~15.5% of annual sales,
+  pointing to holiday/year-end purchasing patterns.
+- **The West region leads in total sales**, driven primarily by the Consumer segment.
+- Quantity and Sales show a **moderate positive correlation** (r ≈ 0.26), while Sales and
+  Profit are only weakly correlated (r ≈ -0.08) — revenue volume alone is a poor proxy for
+  profitability.
+
+📄 See **`EDA_Report.docx`** for the full narrative write-up with embedded visuals and
+detailed recommendations.
+
+---
+
+## 📈 Visualizations
+
+All charts live in `charts/` and are generated by `eda_analysis.py`:
+
+| Chart | What it shows |
+|---|---|
+| `01_distributions.png` | Distributions of Quantity, Discount, Sales, and Profit |
+| `02_monthly_trend.png` | Monthly sales trend across the 3-year period, highlighting seasonality |
+| `03_category_sales_profit.png` | Sales vs. profit by product category |
+| `04_subcategory_margin.png` | Profit margin by sub-category (best vs. worst performers) |
+| `05_discount_vs_margin.png` | Scatter plot of discount depth vs. profit margin |
+| `06_correlation_heatmap.png` | Correlation heatmap across all core numeric variables |
+| `07_region_segment_heatmap.png` | Sales heatmap across Region × Segment |
+| `08_ship_mode.png` | Order volume / performance breakdown by shipping mode |
+
+---
+
+## 🧪 Methodology
+
+1. **Data inspection** — shape, dtypes, missing values, duplicates
+2. **Descriptive statistics** — summary stats for numeric fields, frequency counts for categoricals
+3. **Correlation analysis** — Pearson correlation across Quantity, Discount, Sales, Profit, and Profit Margin
+4. **Visualization** — distributions, time trends, category/sub-category breakdowns, discount-vs-margin
+   scatter, correlation heatmap, and region × segment heatmap
+5. **Insight synthesis** — translating statistical patterns into actionable business recommendations
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.9+
+- `pandas`, `numpy`, `matplotlib`, `seaborn`
+
+### Installation & Reproduction
 
 ```bash
 pip install pandas numpy matplotlib seaborn
@@ -46,11 +157,28 @@ python generate_data.py    # regenerates business_sales_data.csv
 python eda_analysis.py     # runs the EDA, prints stats, saves charts/ and summary_stats.json
 ```
 
-## Methodology
+Running `eda_analysis.py` will:
+- Print shape, dtypes, missing values, and duplicate checks to the console
+- Print descriptive statistics and categorical value counts
+- Regenerate `correlation_matrix.csv`
+- Regenerate all charts in `charts/`
 
-1. **Data inspection** — shape, dtypes, missing values, duplicates
-2. **Descriptive statistics** — summary stats for numeric fields, frequency counts for categoricals
-3. **Correlation analysis** — Pearson correlation across Quantity, Discount, Sales, Profit, Profit Margin
-4. **Visualization** — distributions, time trends, category/sub-category breakdowns, discount-vs-margin
-   scatter, correlation heatmap, region×segment heatmap
-5. **Insight synthesis** — translating statistical patterns into business recommendations
+---
+
+## 💡 Recommendations
+
+- **Cap or tier discounts** on high-volume, low-margin sub-categories like Tables, rather
+  than applying blanket discounting.
+- **Reassess Furniture pricing/cost structure** — high sales volume is not translating into
+  profit.
+- **Double down on high-margin lines** (e.g., Paper, other Office Supplies) where volume
+  could be scaled profitably.
+- **Plan inventory and staffing around the Q4 demand spike** to capture seasonal upside
+  without overspending on logistics.
+- **Investigate regional/segment mix in the West** to replicate its sales leadership in
+  other regions.
+
+---
+
+*Note: This dataset is synthetically generated (see `generate_data.py`) for
+demonstration/practice purposes and does not represent a real business.*
