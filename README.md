@@ -180,5 +180,3 @@ Running `eda_analysis.py` will:
 
 ---
 
-*Note: This dataset is synthetically generated (see `generate_data.py`) for
-demonstration/practice purposes and does not represent a real business.*
