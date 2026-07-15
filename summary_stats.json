@@ -1,0 +1,19 @@
+{
+  "total_orders": 9800,
+  "total_sales": 6384389.0,
+  "total_profit": -53588.93,
+  "overall_margin": -0.0084,
+  "avg_order_value": 651.4683,
+  "corr_discount_margin": -0.7388,
+  "corr_sales_profit": -0.0763,
+  "corr_quantity_sales": 0.262,
+  "best_category_sales": "Technology",
+  "worst_margin_subcat": "Tables",
+  "worst_margin_value": -0.1319,
+  "best_margin_subcat": "Paper",
+  "best_margin_value": 0.2175,
+  "top_region": "West",
+  "q4_share": 0.1551,
+  "pct_discounted_orders": 0.5847,
+  "loss_making_orders_pct": 0.265
+}
